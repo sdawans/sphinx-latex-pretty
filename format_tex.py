@@ -232,9 +232,12 @@ def format_tables(infile):
 
 if __name__ == '__main__':
 	parser = argparse.ArgumentParser()
-	parser.add_argument('infile', help='display a square of a given number')
+	parser.add_argument('infolder', help='Folder containing sphinx-generated LaTeX file(s)')
 	args = parser.parse_args();
 
-	if args.infile:
-		format_preamble(args.infile)
-		format_tables(args.infile)
+	if args.infolder:
+		infiles = [os.path.join(args.infolder,fn) for fn in next(os.walk(args.infolder))[2]]
+		for f in infiles:
+			if f.endswith('.tex'):
+				format_preamble(f)
+				format_tables(f)
